@@ -11,10 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let service = require('./service.js');
 
-
-
-
 app.post('/getData',service.getData);
 
-
-app.listen(PORT,()=>{console.log(`Express server is on port No. ${PORT}`);});
+app.listen(PORT,()=>{console.log(`Express server is on port No. ${PORT}`)});
