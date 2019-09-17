@@ -12,6 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let service = require('./service.js');
 
 
+
+
 app.post('/getData',service.getData);
 
 
