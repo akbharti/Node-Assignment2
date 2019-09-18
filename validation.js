@@ -1,5 +1,3 @@
-
-
 exports.isValidDate = (dateString="") => {
     var regEx = /^\d{4}-\d{2}-\d{2}$/;
     if(!dateString.match(regEx)) return false;  // Invalid format

@@ -1,4 +1,5 @@
-let mysql = require('mysql');
+const mysql = require('mysql');
+const utils = require('util');
 
   let con = mysql.createConnection({
     host: "localhost",
@@ -11,16 +12,14 @@ let mysql = require('mysql');
       if (err) throw err;
     });
 
+    con.query = utils.promisify(con.query);
+
     let validation = require('./validation.js');
    
     //Create post  
     exports.insert=  (row)=>{
 
         let [pname,pdob,...child] = row;
-        //console.log(row)
-        // console.log(pname)
-        // console.log(pdob)
-        // console.log(child)
 
         let flag = true;
 
@@ -30,8 +29,6 @@ let mysql = require('mysql');
             if(flag == false)
              break;
         }
-
-         //console.log(flag);
 
         if(!(row.length % 2 ==0) || (flag == false) )
         {

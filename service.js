@@ -9,7 +9,7 @@ exports.getData = (req,res) =>
     let form = new formidable.IncomingForm();
     
     form.parse(req, function (err, fields, files) {
-
+    //console.log(files)
         fs.readFile(files.foo.path,'utf8',function (err, data) {
 
         let arr = data.split('\r\n')
@@ -23,10 +23,8 @@ exports.getData = (req,res) =>
 
 
             rowData.forEach(item =>  da.insert(item))
-         // da.insert(rowData[1])
 
-
-            res.send(arr)
+           res.send(data)
 
         });
     });
