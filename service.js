@@ -21,7 +21,6 @@ exports.getData = (req,res) =>
                     rowData.push(ar)
             })
 
-
             rowData.forEach(item =>  da.insert(item))
 
            res.send(data)

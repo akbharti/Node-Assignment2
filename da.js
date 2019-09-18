@@ -34,36 +34,54 @@ const utils = require('util');
         {
             let sqlInsert = `INSERT INTO error (errData) VALUES ('${row}')`;  
     
-            con.query(sqlInsert,   (err, result, fields) =>{
-             if (err) 
-                console.log(err);
-            console.log("Error : " , JSON.stringify(result));
-           });
+            let eQuery =  con.query(sqlInsert);
+            eQuery.then(res => console.log('Error : ',JSON.stringify(res)))
+                   .catch(err => console.log("error in inserting in Error Table : ",err));
+
+        //     con.query(sqlInsert,   (err, result, fields) =>{
+        //      if (err) 
+        //         console.log(err);
+        //     console.log("Error : " , JSON.stringify(result));
+        //    });
         }
         else
         {
             let sqlInsert = `INSERT INTO parent (name,dob) VALUES ('${pname}','${pdob}')`;  
-    
-            con.query(sqlInsert,   (err, result, fields) =>{
-             if (err) 
-                console.log(err);
-                else{
-                        console.log("Parent : " , JSON.stringify(result));
 
-                        for(let i=0;i<child.length;i=i+2) { 
-                            let sqlInsert = `INSERT INTO child (pid,name,dob) VALUES ('${result.insertId}','${child[i]}','${child[i+1]}')`;  
+            let pQuery =  con.query(sqlInsert);
+            pQuery.then(res => {
+                                     console.log('Parent : ',JSON.stringify(res))
+                                //   console.log(res.insertId)
+
+                                    for(let i=0;i<child.length;i=i+2) { 
+                                     let sqlInsert1 = `INSERT INTO child (pid,name,dob) VALUES ('${res.insertId}','${child[i]}','${child[i+1]}')`;
+
+                                     let cQuery =  con.query(sqlInsert1);
+                                     cQuery.then(res => console.log('Child : ',JSON.stringify(res)))
+                                           .catch(err => console.log("error in inserting in Child Table : ",err));
+                                     }
+
+                                })
+                  .catch(err => console.log("error in inserting in Parent Table : ",err));
+
+        //     con.query(sqlInsert,   (err, result, fields) =>{
+        //      if (err) 
+        //         console.log(err);
+        //         else{
+        //                 console.log("Parent : " , JSON.stringify(result));
+
+        //                 for(let i=0;i<child.length;i=i+2) { 
+        //                     let sqlInsert = `INSERT INTO child (pid,name,dob) VALUES ('${result.insertId}','${child[i]}','${child[i+1]}')`;  
                 
-                             con.query(sqlInsert,   (err, result, fields) =>{
-                             if (err) 
-                             console.log(err);
-                                 console.log("Child : " , JSON.stringify(result));
-                             });
-                         }
-            
-                }
-           });
-
-       
+        //                      con.query(sqlInsert,   (err, result, fields) =>{
+        //                      if (err) 
+        //                      console.log(err);
+        //                          console.log("Child : " , JSON.stringify(result));
+        //                      });
+        //                  }          
+        //         }
+        //    });
+   
         }//else closed
 
      };
